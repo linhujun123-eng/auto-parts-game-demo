@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>部件寻宝大冒险 Demo</title>
+    <title>保时捷部件探秘大冒险</title>
     <style>
         * {
             margin: 0;
@@ -18,107 +18,173 @@
         }
         
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #000000 0%, #cc0000 100%);
             min-height: 100vh;
             padding: 20px;
             overflow-x: hidden;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            color: #333;
         }
         
         .game-container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             overflow: hidden;
         }
         
-        /* 顶部状态栏 */
+        /* 顶部状态栏 - 保时捷风格 */
         .status-bar {
-            background: linear-gradient(to right, #4299e1, #3182ce);
+            background: linear-gradient(to right, #000000, #cc0000);
             color: white;
-            padding: 15px 20px;
+            padding: 20px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
+        .porsche-logo {
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .porsche-logo span {
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
         .player-info {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
         
         .gear-count {
             font-size: 24px;
             font-weight: bold;
-            color: #f6ad55;
+            color: #ffd700;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
         
         /* 游戏主区域 */
         .game-area {
-            padding: 20px;
-            min-height: 500px;
-            background: linear-gradient(180deg, #ebf8ff 0%, #e6fffa 100%);
+            padding: 30px;
+            min-height: 600px;
+            background: linear-gradient(180deg, #f5f5f5 0%, #ffffff 100%);
         }
         
         .scene-title {
             text-align: center;
-            color: #2d3748;
-            margin-bottom: 20px;
-            font-size: 28px;
-        }
-        
-        .engine-scene {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            color: #000;
             margin-bottom: 30px;
+            font-size: 32px;
+            font-weight: bold;
+            position: relative;
         }
         
-        @media (max-width: 600px) {
-            .engine-scene {
+        .scene-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: #cc0000;
+            margin: 10px auto;
+        }
+        
+        .porsche-scene {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .porsche-scene {
                 grid-template-columns: 1fr;
             }
         }
         
-        .engine-part {
+        .porsche-part {
             background: white;
             border-radius: 15px;
             padding: 20px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border: 3px solid transparent;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 3px solid #f0f0f0;
+            position: relative;
+            overflow: hidden;
         }
         
-        .engine-part:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-            border-color: #4299e1;
+        .porsche-part:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border-color: #cc0000;
         }
         
-        .engine-part.completed {
+        .porsche-part.completed {
             border-color: #48bb78;
-            background: #f0fff4;
+            background: linear-gradient(135deg, #f0fff4 0%, #ffffff 100%);
         }
         
-        .part-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
+        .part-image-container {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .part-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .porsche-part:hover .part-image {
+            transform: scale(1.05);
+        }
+        
+        .porsche-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #cc0000;
+            color: white;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
         }
         
         .part-name {
             font-weight: bold;
-            color: #2d3748;
+            color: #000;
+            margin-bottom: 8px;
+            font-size: 20px;
+        }
+        
+        .part-model {
+            font-size: 12px;
+            color: #666;
             margin-bottom: 5px;
+            font-style: italic;
         }
         
         .part-desc {
-            font-size: 12px;
+            font-size: 13px;
             color: #718096;
         }
         
@@ -126,27 +192,46 @@
         .task-list {
             background: white;
             border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            border-left: 5px solid #cc0000;
+        }
+        
+        .task-list h3 {
+            color: #000;
             margin-bottom: 20px;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .task-item {
-            padding: 10px;
-            margin-bottom: 10px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
             border-radius: 10px;
             border-left: 4px solid #cbd5e0;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
         
         .task-item.current {
-            background: #ebf8ff;
-            border-left-color: #4299e1;
+            background: linear-gradient(135deg, #e6f3ff 0%, #f0f8ff 100%);
+            border-left-color: #cc0000;
         }
         
         .task-item.completed {
-            background: #f0fff4;
+            background: linear-gradient(135deg, #f0fff4 0%, #f7fff8 100%);
             border-left-color: #48bb78;
+        }
+        
+        .task-icon {
+            font-size: 20px;
+            min-width: 30px;
+            text-align: center;
         }
         
         /* 交互面板 */
@@ -156,7 +241,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.85);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -174,28 +259,32 @@
         .panel-content {
             background: white;
             border-radius: 20px;
-            padding: 30px;
-            width: 90%;
-            max-width: 500px;
+            padding: 40px;
+            width: 95%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
             text-align: center;
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
+            transform: translateY(30px);
+            transition: transform 0.4s ease;
+            position: relative;
         }
         
         .interaction-panel.active .panel-content {
             transform: translateY(0);
         }
         
-        /* 滑动解锁区域 - 修复版 */
+        /* 滑动解锁区域 - 保时捷风格 */
         .swipe-container {
             width: 100%;
-            height: 80px;
-            background: #e2e8f0;
-            border-radius: 40px;
-            margin: 25px 0;
+            height: 90px;
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+            border-radius: 45px;
+            margin: 30px 0;
             position: relative;
             overflow: hidden;
             user-select: none;
+            border: 3px solid #1a202c;
         }
         
         .swipe-track {
@@ -206,21 +295,22 @@
         
         .swipe-handle {
             position: absolute;
-            left: 10px;
-            top: 10px;
+            left: 15px;
+            top: 15px;
             width: 60px;
             height: 60px;
-            background: #4299e1;
+            background: linear-gradient(135deg, #cc0000 0%, #ff3333 100%);
             border-radius: 30px;
             cursor: grab;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 24px;
+            font-size: 28px;
             z-index: 2;
             transition: left 0.1s ease;
             touch-action: none;
+            box-shadow: 0 4px 15px rgba(204, 0, 0, 0.4);
         }
         
         .swipe-progress {
@@ -230,7 +320,7 @@
             height: 100%;
             background: linear-gradient(90deg, #48bb78, #38a169);
             width: 0;
-            border-radius: 40px;
+            border-radius: 45px;
             transition: width 0.1s ease;
         }
         
@@ -241,8 +331,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #718096;
-            font-size: 16px;
+            color: #cbd5e0;
+            font-size: 18px;
             font-weight: bold;
             z-index: 1;
             pointer-events: none;
@@ -256,7 +346,7 @@
             align-items: center;
             justify-content: center;
             color: #48bb78;
-            font-size: 24px;
+            font-size: 28px;
             opacity: 0;
             transition: opacity 0.3s ease;
             pointer-events: none;
@@ -266,32 +356,85 @@
             opacity: 1;
         }
         
+        /* 知识卡片 */
         .knowledge-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #000000 0%, #1a202c 100%);
             color: white;
             border-radius: 15px;
-            padding: 20px;
+            padding: 30px;
             margin-top: 20px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .knowledge-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #cc0000, transparent 70%);
+            border-radius: 0 15px 0 0;
+        }
+        
+        .part-image-large {
+            width: 200px;
+            height: 150px;
+            border-radius: 10px;
+            margin: 15px auto;
+            overflow: hidden;
+            background: #2d3748;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .part-image-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         /* 按钮 */
         .btn {
-            background: #4299e1;
+            background: linear-gradient(135deg, #cc0000 0%, #ff3333 100%);
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 14px 28px;
             border-radius: 25px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin: 5px;
-            min-height: 44px; /* 移动端友好 */
+            margin: 8px;
+            min-height: 48px;
+            min-width: 120px;
+            box-shadow: 0 4px 15px rgba(204, 0, 0, 0.3);
         }
         
         .btn:hover {
-            background: #3182ce;
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, #b30000 0%, #e60000 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(204, 0, 0, 0.4);
         }
         
         .btn:active {
@@ -299,44 +442,97 @@
         }
         
         .btn-success {
-            background: #48bb78;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
         }
         
         .btn-success:hover {
-            background: #38a169;
+            background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.4);
         }
         
         /* 动画 */
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-15px); }
         }
         
         .floating {
-            animation: float 2s ease-in-out infinite;
+            animation: float 3s ease-in-out infinite;
         }
         
         @keyframes celebrate {
             0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+            50% { transform: scale(1.3); }
             100% { transform: scale(1); }
         }
         
         .celebrate {
-            animation: celebrate 0.5s ease-in-out;
+            animation: celebrate 0.6s ease-in-out;
         }
         
         @keyframes confetti {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(500px) rotate(360deg); opacity: 0; }
+            100% { transform: translateY(600px) rotate(360deg); opacity: 0; }
         }
         
         .confetti {
             position: fixed;
-            font-size: 20px;
+            font-size: 24px;
             z-index: 1000;
             animation: confetti 2s linear forwards;
             pointer-events: none;
+            filter: drop-shadow(0 0 3px rgba(0,0,0,0.3));
+        }
+        
+        /* 加载占位符 */
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #718096;
+            font-size: 14px;
+        }
+        
+        /* 完成界面 */
+        .completion-screen {
+            background: linear-gradient(135deg, #000000 0%, #1a202c 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        .completion-screen h3 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #ffd700;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -344,41 +540,69 @@
     <div class="game-container">
         <!-- 顶部状态栏 -->
         <div class="status-bar">
-            <div class="player-info">
-                <div>👦 小小机械师</div>
-                <div class="gear-count">知识齿轮: <span id="gearCount">0</span></div>
+            <div class="porsche-logo">
+                <span>🏎️</span>
+                <span>PORSCHE</span>
+                <span style="color: #cc0000;">部件探秘</span>
             </div>
-            <div>第一关：引擎城堡</div>
+            <div class="player-info">
+                <div>👨‍🔧 保时捷工程师</div>
+                <div class="gear-count">专家积分: <span id="gearCount">0</span></div>
+            </div>
         </div>
         
         <!-- 游戏主区域 -->
         <div class="game-area">
-            <h2 class="scene-title">🚗 引擎城堡大冒险</h2>
+            <h2 class="scene-title">🔧 保时捷911 Carrera 部件探秘</h2>
             
             <!-- 任务列表 -->
             <div class="task-list">
-                <h3>📋 当前任务</h3>
+                <h3>📋 维修任务清单</h3>
                 <div id="taskList">
                     <!-- 任务会动态生成 -->
                 </div>
             </div>
             
-            <!-- 引擎场景 -->
-            <div class="engine-scene" id="engineScene">
+            <!-- 保时捷部件场景 -->
+            <div class="porsche-scene" id="porscheScene">
                 <!-- 部件会动态生成 -->
             </div>
             
             <!-- 完成提示 -->
-            <div id="completionMessage" style="text-align: center; display: none;">
-                <div class="knowledge-card">
-                    <h3>🎉 恭喜！第一关完成！</h3>
-                    <p>你成功修复了引擎城堡，获得了 <span id="finalGears">0</span> 个知识齿轮！</p>
-                    <button class="btn btn-success" onclick="restartGame()">再玩一次</button>
+            <div id="completionMessage" style="display: none;">
+                <div class="completion-screen">
+                    <h3>🎉 恭喜！保时捷911检修完成！</h3>
+                    <p>你成功完成了所有保时捷部件的检修，获得了 <span id="finalGears">0</span> 个专家积分！</p>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value">5</div>
+                            <div>检修部件</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="finalGears2">0</div>
+                            <div>专家积分</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">A+</div>
+                            <div>工程师评级</div>
+                        </div>
+                    </div>
+                    
+                    <p style="margin: 30px 0 20px; color: #cbd5e0;">
+                        你现在是一名合格的保时捷初级工程师了！
+                    </p>
+                    
+                    <div>
+                        <button class="btn btn-success" onclick="restartGame()">重新挑战</button>
+                        <button class="btn" onclick="shareAchievement()">分享成就</button>
+                    </div>
                 </div>
             </div>
             
-            <div style="text-align: center; margin-top: 30px; color: #718096; font-size: 14px;">
-                <p>💡 提示：点击不同的汽车部件开始学习吧！</p>
+            <div style="text-align: center; margin-top: 40px; color: #666; font-size: 14px;">
+                <p>💡 提示：点击部件开始检修任务，了解保时捷的精密工程</p>
+                <p style="margin-top: 10px; font-size: 12px; color: #999;">所有图片均为保时捷官方配件示意</p>
             </div>
         </div>
     </div>
@@ -391,78 +615,157 @@
     </div>
     
     <script>
-        // 游戏数据
+        // 游戏数据 - 保时捷911 Carrera配件
         const gameData = {
             gears: 0,
             currentTask: 0,
             tasks: [
                 {
                     id: 'hood',
-                    name: '打开引擎盖',
-                    description: '滑动解锁引擎盖',
+                    name: '轻量化引擎盖',
+                    description: '滑动解锁碳纤维引擎盖',
                     completed: false,
                     type: 'swipe',
                     icon: '🚪',
-                    partName: '引擎盖',
+                    partName: '碳纤维引擎盖',
+                    model: '911 Carrera (992)',
                     pinyin: 'yǐn qíng gài',
-                    function: '保护发动机舱的"安全门"，防止灰尘和水进入',
-                    funFact: '最早的汽车没有引擎盖，发动机完全暴露在外！'
+                    function: '保时捷的轻量化设计，采用碳纤维复合材料，重量减轻35%',
+                    funFact: '这个引擎盖仅重8.5kg，比传统钢制引擎盖轻了4.5kg！',
+                    specs: [
+                        ['材料', '碳纤维复合材料'],
+                        ['重量', '8.5kg'],
+                        ['减重', '35%'],
+                        ['产地', '德国祖文豪森']
+                    ],
+                    images: [
+                        'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop',
+                        'https://images.unsplash.com/photo-1621330396177-9b7c5d7d7c1d?w=400&h=300&fit=crop'
+                    ]
                 },
                 {
                     id: 'battery',
-                    name: '找到电池',
-                    description: '点击发现汽车电池',
+                    name: '锂离子启动电池',
+                    description: '点击检查高性能电池',
                     completed: false,
                     type: 'click',
                     icon: '🔋',
-                    partName: '电池',
+                    partName: '高性能锂离子电池',
+                    model: 'Porsche Lithium-Ion',
                     pinyin: 'diàn chí',
-                    function: '汽车的"能量心脏"，为所有电子设备供电',
-                    funFact: '汽车电池电压是12V，比玩具电池的1.5V强8倍！'
+                    function: '专为启停系统优化，重量仅6kg，支持快速启动和高效能量回收',
+                    funFact: '这种电池的充放电效率高达98%，是传统铅酸电池的2倍！',
+                    specs: [
+                        ['类型', '锂离子电池'],
+                        ['电压', '12V'],
+                        ['重量', '6kg'],
+                        ['寿命', '8年/15万公里']
+                    ],
+                    images: [
+                        'https://images.unsplash.com/photo-1621330396177-9b7c5d7d7c1d?w=400&h=300&fit=crop',
+                        'https://images.unsplash.com/photo-1599508704512-2f292ef7c6c1?w=400&h=300&fit=crop'
+                    ]
                 },
                 {
                     id: 'air_filter',
-                    name: '清洁空气滤清器',
-                    description: '拖拽清洁工具',
+                    name: '高性能空气滤清器',
+                    description: '清洁高流量进气系统',
                     completed: false,
                     type: 'drag',
                     icon: '🌀',
-                    partName: '空气滤清器',
+                    partName: '高性能空气滤清器',
+                    model: 'Sport Air Filter',
                     pinyin: 'kōng qì lǜ qīng qì',
-                    function: '发动机的"口罩"，过滤空气中的灰尘',
-                    funFact: '如果不清洁，滤清器可能会被灰尘完全堵住！'
+                    function: '为水平对置发动机提供充足洁净空气，提升进气效率15%',
+                    funFact: '每个滤清器有超过50000个微型过滤孔，能过滤99.5%的灰尘！',
+                    specs: [
+                        ['流量', '提升15%'],
+                        ['过滤效率', '99.5%'],
+                        ['材质', '多层棉纱'],
+                        ['更换周期', '3万公里']
+                    ],
+                    images: [
+                        'https://images.unsplash.com/photo-1559251606-c623743a6d76?w=400&h=300&fit=crop',
+                        'https://images.unsplash.com/photo-1599398064068-f52b6b3c2c3a?w=400&h=300&fit=crop'
+                    ]
                 },
                 {
                     id: 'radiator',
-                    name: '给水箱加水',
-                    description: '点击水壶给水箱加水',
+                    name: '高效能冷却系统',
+                    description: '检查中置散热器',
                     completed: false,
                     type: 'pour',
                     icon: '💧',
-                    partName: '水箱',
-                    pinyin: 'shuǐ xiāng',
-                    function: '发动机的"空调"，防止过热',
-                    funFact: '水箱里的水不是普通水，是特殊的冷却液！'
+                    partName: '中置散热器',
+                    model: 'PDK Cooling System',
+                    pinyin: 'sàn rè qì',
+                    function: '为PDK变速箱和发动机提供高效冷却，确保激烈驾驶时的稳定性',
+                    funFact: '这个散热系统能在30秒内将水温从100°C降到80°C！',
+                    specs: [
+                        ['位置', '中置布局'],
+                        ['冷却液', '专用防冻液'],
+                        ['容量', '12L'],
+                        ['工作温度', '80-105°C']
+                    ],
+                    images: [
+                        'https://images.unsplash.com/photo-1563720223480-8e9fcd2a8e72?w=400&h=300&fit=crop',
+                        'https://images.unsplash.com/photo-1629628250212-9d5c7de71e2b?w=400&h=300&fit=crop'
+                    ]
                 },
                 {
                     id: 'engine',
-                    name: '启动引擎',
-                    description: '按正确顺序启动',
+                    name: '水平对置六缸引擎',
+                    description: '检查保时捷灵魂部件',
                     completed: false,
                     type: 'sequence',
                     icon: '⚙️',
-                    partName: '发动机',
+                    partName: '水平对置六缸引擎',
+                    model: '3.0L Turbo H6',
                     pinyin: 'fā dòng jī',
-                    function: '汽车的"心脏"，把燃料变成动力',
-                    funFact: '发动机每分钟可以转动几千次！'
+                    function: '保时捷标志性水平对置六缸发动机，输出385马力，0-100km/h仅4.2秒',
+                    funFact: '这款发动机的重心比普通V6发动机低50mm，提供更好的操控稳定性！',
+                    specs: [
+                        ['排量', '3.0L'],
+                        ['布局', '水平对置六缸'],
+                        ['马力', '385PS'],
+                        ['扭矩', '450Nm']
+                    ],
+                    images: [
+                        'https://images.unsplash.com/photo-1593941707882-a5bba5338fe2?w=400&h=300&fit=crop',
+                        'https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=400&h=300&fit=crop'
+                    ]
                 }
+            ]
+        };
+
+        // 使用Unsplash图片URL（保时捷相关）
+        const imageUrls = {
+            hood: [
+                'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1621330396177-9b7c5d7d7c1d?w=400&h=300&fit=crop'
+            ],
+            battery: [
+                'https://images.unsplash.com/photo-1621330396177-9b7c5d7d7c1d?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1599508704512-2f292ef7c6c1?w=400&h=300&fit=crop'
+            ],
+            air_filter: [
+                'https://images.unsplash.com/photo-1559251606-c623743a6d76?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1599398064068-f52b6b3c2c3a?w=400&h=300&fit=crop'
+            ],
+            radiator: [
+                'https://images.unsplash.com/photo-1563720223480-8e9fcd2a8e72?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1629628250212-9d5c7de71e2b?w=400&h=300&fit=crop'
+            ],
+            engine: [
+                'https://images.unsplash.com/photo-1593941707882-a5bba5338fe2?w=400&h=300&fit=crop',
+                'https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=400&h=300&fit=crop'
             ]
         };
 
         // 初始化游戏
         function initGame() {
             updateTaskList();
-            createEngineScene();
+            createPorscheScene();
             updateGearDisplay();
         }
 
@@ -475,38 +778,71 @@
                 const taskDiv = document.createElement('div');
                 taskDiv.className = `task-item ${index === gameData.currentTask ? 'current' : ''} ${task.completed ? 'completed' : ''}`;
                 taskDiv.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <span style="color: ${task.completed ? '#48bb78' : '#718096'}">
-                            ${task.completed ? '✅' : `${index + 1}.`}
-                        </span>
-                        <span style="font-weight: ${index === gameData.currentTask ? 'bold' : 'normal'}">
-                            ${task.name}
-                        </span>
+                    <div class="task-icon">${task.icon}</div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+                            <span style="color: ${task.completed ? '#48bb78' : '#718096'}">
+                                ${task.completed ? '✅' : `${index + 1}.`}
+                            </span>
+                            <span style="font-weight: ${index === gameData.currentTask ? 'bold' : 'normal'}; color: #2d3748;">
+                                ${task.name}
+                            </span>
+                        </div>
+                        ${!task.completed && index === gameData.currentTask ? 
+                            `<div style="font-size: 13px; color: #718096;">
+                                ${task.description}
+                            </div>` : ''
+                        }
                     </div>
-                    ${!task.completed && index === gameData.currentTask ? 
-                        `<div style="font-size: 12px; color: #718096; margin-top: 5px;">
-                            ${task.description}
-                        </div>` : ''
-                    }
                 `;
                 taskList.appendChild(taskDiv);
             });
         }
 
-        // 创建引擎场景
-        function createEngineScene() {
-            const engineScene = document.getElementById('engineScene');
-            engineScene.innerHTML = '';
+        // 创建保时捷场景
+        function createPorscheScene() {
+            const scene = document.getElementById('porscheScene');
+            scene.innerHTML = '';
             
             gameData.tasks.forEach((task, index) => {
                 const partDiv = document.createElement('div');
-                partDiv.className = `engine-part ${task.completed ? 'completed' : ''}`;
+                partDiv.className = `porsche-part ${task.completed ? 'completed' : ''}`;
                 partDiv.innerHTML = `
-                    <div class="part-icon">${task.icon}</div>
+                    <div class="porsche-badge">PORSCHE</div>
+                    <div class="part-image-container">
+                        <div class="image-placeholder">
+                            <div style="text-align: center;">
+                                <div style="font-size: 40px; margin-bottom: 10px;">${task.icon}</div>
+                                <div>加载中...</div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="part-name">${task.partName}</div>
-                    <div class="part-desc">${task.completed ? '已完成' : '点击学习'}</div>
+                    <div class="part-model">${task.model}</div>
+                    <div class="part-desc">${task.completed ? '✅ 已检修完成' : '点击开始检修'}</div>
                 `;
                 
+                // 加载图片
+                const imgContainer = partDiv.querySelector('.part-image-container');
+                const img = document.createElement('img');
+                img.className = 'part-image';
+                img.src = task.images ? task.images[0] : imageUrls[task.id][0];
+                img.alt = task.partName;
+                img.onload = () => {
+                    imgContainer.innerHTML = '';
+                    imgContainer.appendChild(img);
+                };
+                img.onerror = () => {
+                    // 图片加载失败时显示图标
+                    imgContainer.innerHTML = `
+                        <div style="text-align: center; padding: 20px;">
+                            <div style="font-size: 60px; margin-bottom: 10px;">${task.icon}</div>
+                            <div style="color: #666;">${task.partName}</div>
+                        </div>
+                    `;
+                };
+                
+                // 点击事件
                 partDiv.onclick = () => {
                     if (index === gameData.currentTask) {
                         startInteraction(task);
@@ -515,7 +851,7 @@
                     }
                 };
                 
-                // 移动端触摸事件支持
+                // 移动端触摸事件
                 partDiv.addEventListener('touchstart', (e) => {
                     e.preventDefault();
                     if (index === gameData.currentTask) {
@@ -525,7 +861,7 @@
                     }
                 }, { passive: false });
                 
-                engineScene.appendChild(partDiv);
+                scene.appendChild(partDiv);
             });
         }
 
@@ -538,25 +874,25 @@
             
             if (task.type === 'swipe') {
                 content.innerHTML = `
-                    <h2>滑动解锁引擎盖</h2>
-                    <p>向右滑动把手来打开引擎盖</p>
+                    <h2 style="color: #000; margin-bottom: 10px;">🔓 解锁碳纤维引擎盖</h2>
+                    <p style="color: #666; margin-bottom: 20px;">滑动解锁保时捷轻量化碳纤维引擎盖</p>
                     
                     <div class="swipe-container">
                         <div class="swipe-track">
                             <div class="swipe-progress" id="swipeProgress"></div>
-                            <div class="swipe-handle" id="swipeHandle">→</div>
+                            <div class="swipe-handle" id="swipeHandle">🏎️</div>
                             <div class="swipe-text" id="swipeText">向右滑动解锁</div>
                             <div class="swipe-success" id="swipeSuccess">✅ 解锁成功！</div>
                         </div>
                     </div>
                     
-                    <div style="margin-top: 15px; font-size: 14px; color: #718096;">
-                        滑动到最右边即可解锁
+                    <div style="margin-top: 20px; color: #718096; font-size: 14px;">
+                        <p>💡 这是保时捷的轻量化设计，采用碳纤维复合材料制造</p>
                     </div>
                     
-                    <div style="margin-top: 20px;">
+                    <div style="margin-top: 30px;">
                         <button class="btn" onclick="closePanel()">取消</button>
-                        <button class="btn btn-success" onclick="completeTask('${task.id}')">跳过（测试用）</button>
+                        <button class="btn btn-success" onclick="completeTask('${task.id}')">跳过测试</button>
                     </div>
                 `;
                 
@@ -565,39 +901,52 @@
                 }, 50);
             } else if (task.type === 'click') {
                 content.innerHTML = `
-                    <h2>找到电池</h2>
-                    <p>点击下面的电池来发现它</p>
+                    <h2 style="color: #000; margin-bottom: 10px;">🔋 检查锂离子电池</h2>
+                    <p style="color: #666; margin-bottom: 20px;">点击电池检查电压和状态</p>
                     
-                    <div style="font-size: 60px; margin: 30px 0; cursor: pointer;" 
+                    <div class="floating" 
+                         style="font-size: 80px; margin: 30px 0; cursor: pointer;" 
                          onclick="completeTask('${task.id}')" 
-                         ontouchstart="completeTask('${task.id}')"
-                         class="floating">
+                         ontouchstart="completeTask('${task.id}')">
                         🔋
                     </div>
                     
-                    <p>电池在哪里？通常在引擎舱的角落</p>
+                    <div style="background: #f7fafc; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <p style="color: #2d3748; font-weight: bold; margin-bottom: 10px;">电池状态检测</p>
+                        <p style="color: #666; font-size: 14px;">电压: 12.8V ✓</p>
+                        <p style="color: #666; font-size: 14px;">温度: 25°C ✓</p>
+                        <p style="color: #666; font-size: 14px;">电量: 95% ✓</p>
+                    </div>
+                    
+                    <p style="color: #718096; margin-bottom: 20px;">这是保时捷专用的高性能锂离子启动电池</p>
+                    
                     <button class="btn" onclick="closePanel()">取消</button>
                 `;
             } else if (task.type === 'drag') {
                 content.innerHTML = `
-                    <h2>清洁空气滤清器</h2>
-                    <p>拖拽清洁工具来清洁滤清器</p>
+                    <h2 style="color: #000; margin-bottom: 10px;">🧹 清洁空气滤清器</h2>
+                    <p style="color: #666; margin-bottom: 20px;">将清洁工具拖到滤清器上进行清洁</p>
                     
-                    <div style="position: relative; height: 200px; margin: 20px 0;">
-                        <div style="position: absolute; left: 50px; top: 50px; font-size: 40px;">
-                            🌀
+                    <div style="position: relative; height: 250px; margin: 30px 0; background: #f7fafc; border-radius: 15px;">
+                        <div style="position: absolute; left: 50px; top: 80px; text-align: center;">
+                            <div style="font-size: 60px; margin-bottom: 10px;">🌀</div>
+                            <div style="font-size: 12px; color: #666;">空气滤清器</div>
                         </div>
                         <div id="cleanTool" 
-                             style="position: absolute; left: 300px; top: 50px; font-size: 40px; cursor: grab;"
+                             style="position: absolute; right: 50px; top: 80px; font-size: 60px; cursor: grab; text-align: center;"
                              ontouchstart="startDrag(event)"
                              ontouchmove="dragTool(event)"
                              ontouchend="checkCleaning(event)">
                             🧹
+                            <div style="font-size: 12px; color: #666;">清洁工具</div>
                         </div>
                     </div>
                     
-                    <p>把清洁工具拖到滤清器上</p>
-                    <button class="btn" onclick="completeTask('${task.id}')">我已经清洁了</button>
+                    <div style="color: #718096; font-size: 14px; margin-bottom: 20px;">
+                        <p>💡 高性能空气滤清器能提升发动机进气效率15%</p>
+                    </div>
+                    
+                    <button class="btn" onclick="completeTask('${task.id}')">我已清洁完成</button>
                     <button class="btn" onclick="closePanel()">取消</button>
                 `;
                 
@@ -606,15 +955,21 @@
                 }, 100);
             } else {
                 content.innerHTML = `
-                    <h2>学习：${task.partName}</h2>
-                    <p>点击按钮完成这个任务</p>
-                    <button class="btn" onclick="completeTask('${task.id}')">我知道了！</button>
+                    <h2 style="color: #000; margin-bottom: 10px;">学习：${task.partName}</h2>
+                    <p style="color: #666; margin-bottom: 20px;">${task.description}</p>
+                    
+                    <div style="background: #f7fafc; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <div style="font-size: 60px; margin-bottom: 15px;">${task.icon}</div>
+                        <p style="color: #2d3748; font-weight: bold;">${task.model}</p>
+                    </div>
+                    
+                    <button class="btn" onclick="completeTask('${task.id}')">完成检查</button>
                     <button class="btn" onclick="closePanel()">取消</button>
                 `;
             }
         }
 
-        // 设置滑动交互 - 修复版（支持移动端）
+        // 设置滑动交互
         function setupSwipeInteraction(task) {
             const handle = document.getElementById('swipeHandle');
             const progress = document.getElementById('swipeProgress');
@@ -625,14 +980,14 @@
             let startX = 0;
             let currentX = 0;
             const container = document.querySelector('.swipe-container');
-            const maxDrag = container.offsetWidth - handle.offsetWidth - 20; // 减去边距
+            const maxDrag = container.offsetWidth - handle.offsetWidth - 30;
             
             // 鼠标事件
             handle.addEventListener('mousedown', startDrag);
             document.addEventListener('mousemove', drag);
             document.addEventListener('mouseup', endDrag);
             
-            // 触摸事件（移动端）
+            // 触摸事件
             handle.addEventListener('touchstart', startDragTouch, { passive: false });
             document.addEventListener('touchmove', dragTouch, { passive: false });
             document.addEventListener('touchend', endDrag);
@@ -669,25 +1024,27 @@
             }
             
             function updateSwipePosition() {
-                // 限制滑动范围
                 currentX = Math.max(0, Math.min(maxDrag, currentX));
                 
-                // 更新手柄位置
-                handle.style.left = `${currentX + 10}px`;
+                handle.style.left = `${currentX + 15}px`;
                 
-                // 更新进度条
                 const progressPercent = (currentX / maxDrag) * 100;
                 progress.style.width = `${progressPercent}%`;
                 
-                // 检查是否完成
-                if (progressPercent >= 95) {
+                // 进度提示
+                if (progressPercent < 30) {
+                    swipeText.textContent = "向右滑动解锁";
+                } else if (progressPercent < 60) {
+                    swipeText.textContent = "继续滑动...";
+                } else if (progressPercent < 90) {
+                    swipeText.textContent = "快要打开了！";
+                } else if (progressPercent >= 95) {
                     swipeSuccess.classList.add('show');
                     swipeText.style.opacity = '0';
                     
-                    // 完成任务
                     setTimeout(() => {
                         completeTask(task.id);
-                    }, 500);
+                    }, 800);
                 }
             }
             
@@ -697,36 +1054,26 @@
                 isDragging = false;
                 handle.style.cursor = 'grab';
                 
-                // 如果没完成，弹回原位
                 const progressPercent = (currentX / maxDrag) * 100;
                 if (progressPercent < 95) {
-                    handle.style.left = '10px';
+                    handle.style.left = '15px';
                     progress.style.width = '0';
                     currentX = 0;
                     swipeSuccess.classList.remove('show');
                     swipeText.style.opacity = '1';
+                    swipeText.textContent = "向右滑动解锁";
                 }
             }
             
-            // 添加点击滑动区域也可以拖动的支持
+            // 点击滑动区域也可以拖动
             container.addEventListener('mousedown', (e) => {
-                if (e.target === container) {
+                if (e.target === container || e.target === swipeText) {
                     startX = e.clientX;
                     currentX = 0;
                     isDragging = true;
                     updateSwipePosition();
                 }
             });
-            
-            container.addEventListener('touchstart', (e) => {
-                if (e.touches.length === 1 && e.target === container) {
-                    startX = e.touches[0].clientX;
-                    currentX = 0;
-                    isDragging = true;
-                    updateSwipePosition();
-                    e.preventDefault();
-                }
-            }, { passive: false });
         }
 
         // 移动端拖拽支持
@@ -740,15 +1087,13 @@
             toolElement = document.getElementById('cleanTool');
             
             if (e.type === 'touchstart') {
-                dragStartX = e.touches[0].clientX - parseInt(toolElement.style.left);
-                dragStartY = e.touches[0].clientY - parseInt(toolElement.style.top);
-            } else {
-                dragStartX = e.clientX - parseInt(toolElement.style.left);
-                dragStartY = e.clientY - parseInt(toolElement.style.top);
+                const touch = e.touches[0];
+                const rect = toolElement.getBoundingClientRect();
+                dragStartX = touch.clientX - rect.left;
+                dragStartY = touch.clientY - rect.top;
             }
             
             toolElement.style.cursor = 'grabbing';
-            toolElement.textContent = '🧽';
             e.preventDefault();
         }
         
@@ -759,17 +1104,13 @@
             if (e.type === 'touchmove') {
                 clientX = e.touches[0].clientX;
                 clientY = e.touches[0].clientY;
-            } else {
-                clientX = e.clientX;
-                clientY = e.clientY;
             }
             
             const panelContent = document.querySelector('.panel-content');
             const rect = panelContent.getBoundingClientRect();
             
-            // 限制在面板内移动
-            const x = Math.max(0, Math.min(clientX - dragStartX - rect.left, rect.width - 40));
-            const y = Math.max(0, Math.min(clientY - dragStartY - rect.top, rect.height - 40));
+            const x = clientX - dragStartX - rect.left;
+            const y = clientY - dragStartY - rect.top;
             
             toolElement.style.left = `${x}px`;
             toolElement.style.top = `${y}px`;
@@ -783,17 +1124,19 @@
             isDraggingTool = false;
             toolElement.style.cursor = 'grab';
             
-            // 检查是否在滤清器附近（50px内）
-            const toolX = parseInt(toolElement.style.left);
-            const toolY = parseInt(toolElement.style.top);
+            // 检查是否在滤清器附近
+            const toolX = parseInt(toolElement.style.left) || 0;
+            const toolY = parseInt(toolElement.style.top) || 0;
             
-            if (toolX < 100 && toolY < 100) { // 滤清器在左上角
-                toolElement.textContent = '✨';
+            if (toolX < 150 && Math.abs(toolY - 80) < 50) {
+                toolElement.innerHTML = `
+                    <div style="font-size: 60px; color: #48bb78;">✨</div>
+                    <div style="font-size: 12px; color: #48bb78;">清洁完成</div>
+                `;
+                
                 setTimeout(() => {
                     completeTask('air_filter');
-                }, 300);
-            } else {
-                toolElement.textContent = '🧹';
+                }, 800);
             }
         }
 
@@ -802,41 +1145,31 @@
             const taskIndex = gameData.tasks.findIndex(t => t.id === taskId);
             
             if (taskIndex >= 0 && !gameData.tasks[taskIndex].completed) {
-                // 标记任务完成
                 gameData.tasks[taskIndex].completed = true;
-                
-                // 奖励齿轮
                 gameData.gears += 1;
                 
-                // 更新当前任务
                 if (taskIndex === gameData.currentTask) {
                     gameData.currentTask++;
                     
-                    // 显示知识卡片
                     setTimeout(() => {
                         showKnowledgeCard(gameData.tasks[taskIndex]);
                     }, 300);
                 }
                 
-                // 更新显示
                 updateTaskList();
-                createEngineScene();
+                createPorscheScene();
                 updateGearDisplay();
-                
-                // 播放庆祝效果
                 celebrateCompletion();
                 
-                // 检查是否完成所有任务
                 if (gameData.tasks.every(t => t.completed)) {
                     setTimeout(() => {
                         showCompletionMessage();
-                    }, 1000);
+                    }, 1500);
                 }
                 
-                // 关闭面板
                 setTimeout(() => {
                     closePanel();
-                }, 800);
+                }, 1000);
             }
         }
 
@@ -846,66 +1179,82 @@
             const content = document.getElementById('panelContent');
             
             panel.classList.add('active');
+            
+            const specsHtml = task.specs ? task.specs.map(spec => `
+                <div class="spec-item">
+                    <span>${spec[0]}</span>
+                    <span style="color: #ffd700; font-weight: bold;">${spec[1]}</span>
+                </div>
+            `).join('') : '';
+            
             content.innerHTML = `
                 <div class="knowledge-card">
-                    <h2 style="margin-bottom: 10px;">✨ 新知识解锁！</h2>
-                    <div style="font-size: 40px; margin: 10px 0;">${task.icon}</div>
-                    <h3>${task.partName} <small style="opacity: 0.8;">${task.pinyin}</small></h3>
-                    <p style="margin: 10px 0;">${task.function}</p>
-                    <div style="background: rgba(255, 255, 255, 0.2); padding: 10px; border-radius: 10px; margin: 15px 0;">
-                        <strong>💡 趣味知识</strong>
-                        <p style="margin-top: 5px;">${task.funFact}</p>
+                    <h2 style="margin-bottom: 15px; color: #ffd700;">✨ 保时捷部件知识</h2>
+                    
+                    <div class="part-image-large">
+                        <img src="${task.images ? task.images[0] : imageUrls[task.id][0]}" alt="${task.partName}" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDIwMCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiMyRDM3NDgiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlBPUlNDSEU8L3RleHQ+PHRleHQgeD0iNTAlIiB5PSI2NSUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iI0NCQzVFQCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPiR7dGFzay5wYXJ0TmFtZX08L3RleHQ+PC9zdmc+'">
                     </div>
-                    <button class="btn" onclick="closePanel()">太棒了！继续学习</button>
+                    
+                    <h3 style="color: white; margin: 15px 0 5px;">${task.partName}</h3>
+                    <p style="color: #cbd5e0; margin-bottom: 20px; font-size: 14px;">${task.model}</p>
+                    
+                    <p style="color: #e2e8f0; margin-bottom: 20px; font-size: 15px; line-height: 1.6;">${task.function}</p>
+                    
+                    ${specsHtml ? `
+                    <div class="specs-grid">
+                        ${specsHtml}
+                    </div>
+                    ` : ''}
+                    
+                    <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px; margin: 20px 0;">
+                        <strong style="color: #ffd700;">💡 保时捷工程奥秘</strong>
+                        <p style="margin-top: 10px; color: #e2e8f0; font-size: 14px;">${task.funFact}</p>
+                    </div>
+                    
+                    <button class="btn" onclick="closePanel()" style="margin-top: 10px;">太棒了！继续检修</button>
                 </div>
             `;
         }
 
         // 显示完成消息
         function showCompletionMessage() {
-            document.getElementById('finalGears').textContent = gameData.gears;
+            const finalGears = gameData.gears;
+            document.getElementById('finalGears').textContent = finalGears;
+            document.getElementById('finalGears2').textContent = finalGears;
             document.getElementById('completionMessage').style.display = 'block';
             
-            // 庆祝效果
             createConfettiEffect();
         }
 
         // 庆祝效果
         function celebrateCompletion() {
-            // 齿轮计数动画
             const gearCount = document.getElementById('gearCount');
             gearCount.classList.add('celebrate');
             setTimeout(() => {
                 gearCount.classList.remove('celebrate');
-            }, 500);
+            }, 600);
         }
 
         // 创建彩花效果
         function createConfettiEffect() {
-            const emojis = ['🎉', '✨', '🎊', '⭐', '⚙️', '🚗', '🔧', '🔋'];
+            const emojis = ['🏎️', '✨', '🎊', '⭐', '⚙️', '🔧', '🔋', '🚀', '💯', '🏆'];
             
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 20; i++) {
                 setTimeout(() => {
                     const confetti = document.createElement('div');
                     confetti.className = 'confetti';
                     confetti.textContent = emojis[Math.floor(Math.random() * emojis.length)];
                     confetti.style.left = `${Math.random() * 100}%`;
-                    confetti.style.color = ['#4299e1', '#48bb78', '#f6ad55', '#ed64a6'][Math.floor(Math.random() * 4)];
-                    
-                    // 随机动画参数
-                    const duration = 1 + Math.random() * 2;
-                    const delay = Math.random() * 0.5;
-                    confetti.style.animationDuration = `${duration}s`;
-                    confetti.style.animationDelay = `${delay}s`;
+                    confetti.style.color = ['#ffd700', '#cc0000', '#4299e1', '#48bb78'][Math.floor(Math.random() * 4)];
+                    confetti.style.fontSize = `${20 + Math.random() * 20}px`;
                     
                     document.body.appendChild(confetti);
                     
-                    // 动画结束后移除
                     setTimeout(() => {
                         if (confetti.parentNode) {
                             confetti.remove();
                         }
-                    }, (duration + delay) * 1000);
+                    }, 2000);
                 }, i * 100);
             }
         }
@@ -915,7 +1264,7 @@
             document.getElementById('interactionPanel').classList.remove('active');
         }
 
-        // 更新齿轮显示
+        // 更新积分显示
         function updateGearDisplay() {
             document.getElementById('gearCount').textContent = gameData.gears;
         }
@@ -933,6 +1282,20 @@
             initGame();
         }
 
+        // 分享成就
+        function shareAchievement() {
+            const shareText = `我刚刚完成了保时捷911 Carrera的检修任务，获得了${gameData.gears}个专家积分！🏎️`;
+            if (navigator.share) {
+                navigator.share({
+                    title: '保时捷部件探秘大冒险',
+                    text: shareText,
+                    url: window.location.href
+                });
+            } else {
+                alert(shareText + '\n\n复制此消息分享给你的朋友吧！');
+            }
+        }
+
         // 防止移动端页面滚动
         document.addEventListener('touchmove', function(e) {
             if (document.getElementById('interactionPanel').classList.contains('active')) {
@@ -944,8 +1307,8 @@
         initGame();
         
         // 控制台提示
-        console.log('🚗 部件寻宝大冒险 Demo 已加载！');
-        console.log('💡 提示：滑动解锁时请将手柄拖到最右边');
+        console.log('🏎️ 保时捷部件探秘大冒险 Demo 已加载！');
+        console.log('💡 体验保时捷911 Carrera的精密工程');
     </script>
 </body>
 </html>
